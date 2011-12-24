@@ -9,5 +9,6 @@ get "/" do
   pins = Pin.all
   postcodes = pins.collect{ |x| %Q|{"postcode":"#{x.postcode}","message":"<span style='font-family:Verdana,Arial,sans serif'><b>@#{x.name}</b>: #{x.message}</span>"}| }
   @postcodes = %Q|{"postcodes": [#{postcodes.join(",")}]}|
+  @api_key = ENV["gmaps_key"] ? ENV["gmaps_key"] : ""
   erb :index
 end
