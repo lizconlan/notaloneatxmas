@@ -6,6 +6,6 @@ require 'active_record'
  
 disable :run
 
-require 'server'
+require './server.rb'
 
 run Sinatra::Application
