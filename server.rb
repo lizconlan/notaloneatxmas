@@ -1,4 +1,4 @@
-require 'models/pin'
+require './models/pin'
 
 before do
   env = ENV["RACK_ENV"] ? ENV["RACK_ENV"] : "development"

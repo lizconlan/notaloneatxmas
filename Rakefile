@@ -3,7 +3,7 @@ require 'bundler'
 Bundler.load
 require 'active_record'
 require 'twitter'
-
+require './models/pin'
 
 task :cron => :environment do
   results = Twitter.search('#notaloneatxmas', :result_type => "recent")
