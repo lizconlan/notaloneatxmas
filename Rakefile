@@ -6,6 +6,15 @@ require 'twitter'
 require './models/pin'
 
 task :cron => :environment do
+  if ENV['consumer_key']
+    Twitter.configure do |config|
+      config.consumer_key = ENV['consumer_key']
+      config.consumer_secret = ENV['consumer_secret']
+      config.oauth_token = ENV['oauth_token']
+      config.oauth_token_secret = ENV['oauth_token_secret']
+    end
+  end
+  
   results = Twitter.search('#notaloneatxmas')
 
   results.each do |result|
@@ -15,6 +24,7 @@ task :cron => :environment do
       postcode = nil
       if result.text =~ /(?: |^)([A-Z]{1,2}\d{1,2}(?: \d[A-Z]{2})?)(?: |$)/
         postcode = $1
+        p 'postcode, yo!'
         #great, to the mapping API
         unless Pin.find_by_name_and_postcode(result.from_user, postcode)
           pin = Pin.new
