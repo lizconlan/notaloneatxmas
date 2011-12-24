@@ -3,7 +3,7 @@ require 'bundler'
 Bundler.load
 require 'sinatra'
 require 'twitter'
-require 'activerecord'
+require 'active_record'
  
 disable :run
 
