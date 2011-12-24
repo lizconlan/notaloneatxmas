@@ -24,11 +24,10 @@ task :cron => :environment do
       postcode = nil
       if result.text =~ /(?: |^)([A-Z]{1,2}\d{1,2}(?: \d[A-Z]{2})?)(?: |$)/
         postcode = $1
-        p 'postcode, yo!'
         #great, to the mapping API
         unless Pin.find_by_name_and_postcode(result.from_user, postcode)
           pin = Pin.new
-          pin.name = result.from_name
+          pin.name = result.from_user
           pin.postcode = postcode
           pin.message = result.text
           pin.tweet_id = result.id

@@ -19,7 +19,7 @@
        map.setCenter(new GLatLng(54.00, -3.00), 6);
               
        for (i = 0; i < postcodeJSON.postcodes.length; i++) {
-          message = postcodeJSON.postcodes[i].message;
+          var message = postcodeJSON.postcodes[i].message;
           geocoder.getLatLng(postcodeJSON.postcodes[i].postcode + ', UK', function (point) {         
              if (point) {
                 marker = new GMarker(point);
