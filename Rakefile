@@ -5,7 +5,7 @@ require 'active_record'
 require 'twitter'
 
 
-task :load_tweets do
+task :cron do
   results = Twitter.search('#notaloneatxmas', :result_type => "recent")
 
   results.each do |result|
