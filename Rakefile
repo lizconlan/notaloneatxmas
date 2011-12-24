@@ -15,7 +15,7 @@ task :cron => :environment do
     end
   end
   
-  results = Twitter.search('#notaloneatxmas')
+  results = Twitter.search('#notaloneatxmas', :rpp => 100)
 
   results.each do |result|
     #ignore retweets
