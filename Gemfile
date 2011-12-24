@@ -5,6 +5,7 @@ gem 'twitter'
 gem 'actionpack', '2.3.10'
 gem 'activerecord', '2.3.10'
 gem 'sinatra'
+gem 'json'
 
 group :development do
   gem 'shotgun'
