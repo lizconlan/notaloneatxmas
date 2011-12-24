@@ -6,7 +6,7 @@ require 'twitter'
 require './models/pin'
 
 task :cron => :environment do
-  results = Twitter.search('#notaloneatxmas', :result_type => "recent")
+  results = Twitter.search('#notaloneatxmas')
 
   results.each do |result|
     #ignore retweets
