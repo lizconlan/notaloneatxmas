@@ -19,7 +19,7 @@ task :cron => :environment do
 
   results.each do |result|
     #ignore retweets
-    unless result.text /RT /
+    unless result.text =~ /RT /
       #hunt for something that looks like a postcode
       postcode = nil
       if result.text =~ /(?: |^)([A-Z]{1,2}\d{1,2}(?: \d[A-Z]{2})?)(?: |$)/
