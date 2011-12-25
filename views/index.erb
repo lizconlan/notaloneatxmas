@@ -2,7 +2,7 @@
 <html> 
 <head> 
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"/> 
-    <title>#NotAloneAtXmas UK Map</title> 
+    <title>#NotAloneAtXmas UK Map</title>
     <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=<%=@api_key%>"
             type="text/javascript"></script> 
   </head> 
@@ -10,25 +10,34 @@
     <div id="map_canvas" style="width: 800px; height: 600px"></div> 
 
     <script type="text/javascript"> 
-       var geocoder = new GClientGeocoder();
-       var map = new GMap2(document.getElementById("map_canvas"));
-       var i;
+      var geocoder = new GClientGeocoder();
+      var map = new GMap2(document.getElementById("map_canvas"));
+      map.addControl(new GLargeMapControl());
+      var i;
+      var points = [];
+      var messages = {};
+      var names = {};
 
-       var postcodeJSON = <%= @postcodes %>;
+      var postcodeJSON = <%= @postcodes %>;
 
-       map.setCenter(new GLatLng(54.00, -3.00), 6);
-              
-       for (i = 0; i < postcodeJSON.postcodes.length; i++) {
-          var message = postcodeJSON.postcodes[i].message;
-          geocoder.getLatLng(postcodeJSON.postcodes[i].postcode + ', UK', function (point) {         
-             if (point) {
-                marker = new GMarker(point);
-                map.addOverlay(marker);
-                GEvent.addListener(marker, "click", function()
-                  {marker.openInfoWindowHtml(message);})
-             }
-          });
-       }
+      map.setCenter(new GLatLng(54.00, -3.00), 6);
+            
+      for (i = 0; i < postcodeJSON.postcodes.length; i++) {
+        geocoder.getLatLng(postcodeJSON.postcodes[i].postcode + ', UK', function (point) {
+          if (point) {
+            points.push(point);
+            key = point.toString().replace(',', '__').replace(' ', '').replace('\(', '').replace('\)','');
+            messages[key] = postcodeJSON.postcodes[points.length-1].message;
+            names[key] = postcodeJSON.postcodes[points.length-1].tname;
+            marker = new GMarker(point, {'title': postcodeJSON.postcodes[points.length-1].postcode});            
+            GEvent.addListener(marker, "click", function() {
+              key = this.getLatLng().toString().replace(',', '__').replace(' ', '').replace('\(', '').replace('\)','');
+              this.openInfoWindow("<b>@" + names[key] + "</b>: " + messages[key], {'LatLng': marker.getLatLng()});
+            });
+            map.addOverlay(marker);
+          }
+        });
+      }
     </script>
   </body> 
 </html>
